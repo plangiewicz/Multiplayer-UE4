@@ -3,6 +3,8 @@
 #include "FuryFunTaleProd.h"
 #include "FFTP_PlayerHUD.h"
 #include "FFTP_Character.h"
+#include "FFTP_PlayerController.h"
+#include "Runtime/UMG/Public/Blueprint/UserWidget.h"
 
 
 AFFTP_PlayerHUD::AFFTP_PlayerHUD(const class FObjectInitializer& ObjectInitializer)
@@ -11,13 +13,38 @@ AFFTP_PlayerHUD::AFFTP_PlayerHUD(const class FObjectInitializer& ObjectInitializ
 	/* You can use the FObjectFinder in C++ to reference content directly in code. Although it's advisable to avoid this and instead assign content through Blueprint child classes. */
 	static ConstructorHelpers::FObjectFinder<UTexture2D> HUDCenterDotObj(TEXT("/Game/UI/HUD/centerdot"));
 	CenterDotIcon = UCanvas::MakeIcon(HUDCenterDotObj.Object);
+
+	//AccessToPlay(true);
+
 }
+//
+//void AFFTP_PlayerHUD::BeginPlay()
+//{
+//	Super::BeginPlay(); 
+//	APlayerController* controller = GetOwningPlayerController();
+//	if (controller)
+//	{
+//		static ConstructorHelpers::FObjectFinder<UClass> WidgetHUDLayer(TEXT("/Game/UI/HUD/Widged_HUDLayout"));
+//		if(WidgetHUDLayer.Succeeded())
+//		{
+//			//CreateWidget(controller, WidgetHUDLayer.Object->GetClass());
+//			MyMainMenu = CreateWidget<UUserWidget>(controller, WidgetHUDLayer);
+//		}
+//	}
+//
+//}
 
 void AFFTP_PlayerHUD::DrawHUD()
 {
 	Super::DrawHUD();
 
 	DrawCenterDot();
+}
+
+
+void AFFTP_PlayerHUD::AccessToPlay(bool access)
+{
+	bInGame = access;
 }
 
 void AFFTP_PlayerHUD::DrawCenterDot()
@@ -27,7 +54,7 @@ void AFFTP_PlayerHUD::DrawCenterDot()
 	float CenterDotScale = 0.07f;
 
 	AFFTP_Character* Pawn = Cast<AFFTP_Character>(GetOwningPawn());
-	if (Pawn/* && Pawn->IsAlive()*/) 
+	if (Pawn/* && Pawn->IsAlive()*/ && bInGame)
 		//TODO: IsAlive()
 	{
 		// Boost size when hovering over a usable object.

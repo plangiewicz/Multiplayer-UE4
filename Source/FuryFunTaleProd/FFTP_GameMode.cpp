@@ -15,6 +15,12 @@ AFFTP_GameMode::AFFTP_GameMode(const FObjectInitializer& ObjectInitializer)
 	PlayerControllerClass = AFFTP_PlayerController::StaticClass();
 	PlayerStateClass = AFFTP_PlayerState::StaticClass();
 	GameStateClass = AFTTP_GameState::StaticClass();
+
+	static ConstructorHelpers::FClassFinder<AFFTP_PlayerHUD> BP_HUD(TEXT("/Game/UI/BP_FFTP_PlayerHUD"));
+	if (BP_HUD.Succeeded()) {
+		HUDClass = BP_HUD.Class;
+	}
+
 	//SpectatorClass = ASSpectatorPawn::StaticClass();
 
 	bAllowFriendlyFireDamage = false;
@@ -47,6 +53,7 @@ void AFFTP_GameMode::PreInitializeComponents()
 
 	/* Set timer to run every second */
 	GetWorldTimerManager().SetTimer(TimerHandle_DefaultTimer, this, &AFFTP_GameMode::DefaultTimer, GetWorldSettings()->GetEffectiveTimeDilation(), true);
+
 }
 
 
@@ -65,7 +72,7 @@ void AFFTP_GameMode::StartMatch()
 void AFFTP_GameMode::DefaultTimer()
 {
 	/* Immediately start the match while playing in editor */
-	//if (GetWorld()->IsPlayInEditor())
+	if (GetWorld()->IsPlayInEditor())
 	{
 		if (GetMatchState() == MatchState::WaitingToStart)
 		{

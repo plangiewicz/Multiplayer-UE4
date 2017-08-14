@@ -19,6 +19,7 @@ AFFTP_PlayerController::AFFTP_PlayerController(const class FObjectInitializer& O
 
 	/* Example - Can be set to true for debugging, generally a value like this would exist in the GameMode instead */
 	bRespawnImmediately = false;
+
 }
 
 
@@ -148,6 +149,19 @@ FText AFFTP_PlayerController::GetText(EHUDMessage MsgID)
 		UE_LOG(LogGame, Warning, TEXT("No Message set for enum value in SPlayerContoller::GetText(). "))
 			return FText::FromString("No Message Set");
 	}
+}
+
+
+bool AFFTP_PlayerController::LoginTry(FString login, FString password)
+{
+	if(_database.ConnectTest())
+	{
+		if(_database.Login(login, password))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 /* Remove the namespace definition so it doesn't exist in other files compiled after this one. */

@@ -4,6 +4,7 @@
 
 #include "GameFramework/PlayerController.h"
 #include "FFTP_PlayerHUD.h"
+#include "FFTP_DataBase.h"
 #include "FFTP_PlayerController.generated.h"
 
 
@@ -52,7 +53,15 @@ class FURYFUNTALEPROD_API AFFTP_PlayerController : public APlayerController
 
 	bool ServerSuicide_Validate();
 
+	FFTP_DataBase _database;
+
 public:
+
+	//void BeginPlay() override;
+
+	//UUserWidget* MyMainMenu;
+
+	bool LoginTry(FString login, FString password);
 
 	UFUNCTION(Reliable, Client)
 		void ClientHUDStateChanged(EHUDState NewState);

@@ -36,6 +36,13 @@ class FURYFUNTALEPROD_API AFFTP_PlayerHUD : public AHUD
 
 public:
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InGameHUD)
+	bool bInGame;
+
+	//void BeginPlay() override;
+
+	void AccessToPlay(bool access);
+
 	UFUNCTION(BlueprintCallable, Category = "HUD")
 		EHUDState GetCurrentState();
 
